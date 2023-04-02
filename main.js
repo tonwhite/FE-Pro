@@ -7,39 +7,44 @@
 2) Знайти стовпчик, де сума елементів найбільша.
 */
 
-const m = 5;
-const n = 5;
+const rows = 5;
+const cols = 5;
 
-const arr = new Array(n);
-
-let maxItem;
-let maxItemIndex;
-
-let minItem;
-let minItemIndex;
-
-for (let i = 0; i < arr.length; i++) {
-    arr[i] = [];
-    arr[i].length = m;
-    
-    let sum = 0;
-
-    for (let j = 0; j < arr[i].length; j++) {
-        arr[i][j] = Math.floor(Math.random() * 100);
-        sum += arr[i][j];
-
-        console.log(array, 'array');
-        console.log(sum, 'sum');
-
-    }
-
-    console.log(sum, ' <---sum from index =', i);
-    
-
-
-
-
-
+const matrix = new Array(rows);
+for (let i = 0; i < rows; i++) {
+  matrix[i] = new Array(cols);
+  for (let j = 0; j < cols; j++) {
+    matrix[i][j] = Math.floor(Math.random() * 100);
+  }
 }
-console.log(arr);
- 
+console.log(matrix, "Двовимірний масив");
+
+let minSum = 0;
+let minSumCol = 0;
+
+let maxSum = 0;
+let maxSumCol = 0;
+
+for (let j = 0; j < cols; j++) {
+    let currentSum = 0;
+    for (let i = 0; i < rows; i++) {
+        currentSum += matrix[i][j];
+    }
+    if (j === 0) {
+        minSum = currentSum;
+        maxSum = currentSum;
+    }
+    if (currentSum < minSum) {
+        minSum = currentSum;
+        minSumCol = j;
+        console.log(minSum,`minSum`);
+    }
+    if (currentSum > maxSum) {
+        maxSum = currentSum;
+        maxSumCol = j;
+        console.log(maxSum,`maxSum`);
+    }
+}
+
+console.log(`Стовпчик з найменшою сумою елементів: ${minSumCol}, сума: ${minSum}`);
+console.log(`Стовпчик з найбільшою сумою елементів: ${maxSumCol}, сума: ${maxSum}`);
