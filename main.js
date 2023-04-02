@@ -48,3 +48,9 @@ for (let j = 0; j < cols; j++) {
 
 console.log(`Стовпчик з найменшою сумою елементів: ${minSumCol}, сума: ${minSum}`);
 console.log(`Стовпчик з найбільшою сумою елементів: ${maxSumCol}, сума: ${maxSum}`);
+
+console.log(matrix[0][0] + matrix[1][0] + matrix[2][0] + matrix[3][0] + matrix[4][0], 'сума 0го стовпчика');
+console.log(matrix[0][1] + matrix[1][1] + matrix[2][1] + matrix[3][1] + matrix[4][1], 'сума 1го стовпчика');
+console.log(matrix[0][2] + matrix[1][2] + matrix[2][2] + matrix[3][2] + matrix[4][2], 'сума 2го стовпчика');
+console.log(matrix[0][3] + matrix[1][3] + matrix[2][3] + matrix[3][3] + matrix[4][3], 'сума 3го стовпчика');
+console.log(matrix[0][4] + matrix[1][4] + matrix[2][4] + matrix[3][4] + matrix[4][4], 'сума 4го стовпчика');
