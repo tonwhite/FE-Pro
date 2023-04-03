@@ -24,7 +24,7 @@ for (let i = 0; i < len; i++) {
 console.log(arr,`Початковий масив`);
 
 for (let i = 0; i < len; i++) {
-    if (i === len - 1) {
+    if (len % 2 === 1 && i === len - 1) {
         break;
     }
     if (i % 2 === 0) {
