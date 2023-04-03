@@ -32,7 +32,6 @@ for (let j = 0; j < cols; j++) {
     }
     if (j === 0) {
         minSum = currentSum;
-        maxSum = currentSum;
     }
     if (currentSum < minSum) {
         minSum = currentSum;
