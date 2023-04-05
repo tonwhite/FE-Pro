@@ -9,9 +9,19 @@ console.log(array);
 // Результат: [1, 2, 3, 4, 6, 7]
 
 */
+function ForwardCount(array) {
+    const len = array.length;
+    for (let i = 0; i < len; i++) {
+        array[i] = i + 1;
+    }
+    return array;
+}
 
-const array = [1, 2, 3, 4, 5, 6, 7];
-console.log(array, `до функції`);
+const array = new Array(7);
+console.log(array,`пустий масив`);
+
+ForwardCount(array);
+console.log(array, `масив до функції`);
 
 function removeElement(array, item) {
     const index = array.indexOf(item);
@@ -25,4 +35,4 @@ function removeElement(array, item) {
 const n = Math.floor(Math.random() * 10);
 console.log(n, `Рандомне значення`);
 removeElement(array, n);
-console.log(array,`після функції`);
+console.log(array,`масив після функції`);
