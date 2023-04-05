@@ -21,7 +21,7 @@ const array = new Array(7);
 console.log(array,`пустий масив`);
 
 ForwardCount(array);
-console.log(array, `масив до функції`);
+console.log(array, `заповнений масив`);
 
 function removeElement(array, item) {
     const index = array.indexOf(item);
@@ -32,7 +32,9 @@ function removeElement(array, item) {
     }
     return array;
 }
-const n = Math.floor(Math.random() * 10);
-console.log(n, `Рандомне значення`);
+
+const n = Math.ceil(Math.random() * 10);
+console.log(n, `рандомне значення`);
+
 removeElement(array, n);
-console.log(array,`масив після функції`);
+console.log(array,`поранений масив`);
