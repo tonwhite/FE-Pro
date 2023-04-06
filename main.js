@@ -13,17 +13,15 @@ const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
 console.log(characters.length, `довжина root key`);
 
 function getRanNum(min, max) {
-    
-    const ranNum = Math.floor(Math.random() * (max - min + 1)) + min;
-    return ranNum;
+    return Math.floor(Math.random() * (max - min + 1)) + min;;
 }
 
 function generateKey(length, span) {
-    
     let key = ``;
     const spanLength = span.length;
+
     for (let i = 0; i < length; i++) {
-        index = getRanNum(0, spanLength-1);
+        index = getRanNum(0, spanLength - 1);
         key += span[index];
     }
     return key;
