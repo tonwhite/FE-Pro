@@ -18,17 +18,18 @@ sumToArray([1, 2]) ==> 3
 sumToArray([1, 2, 3]) ==> 6 */
 
 function sumToArray(array) {
-  const length = array.length;
-
-  if (length === 0) {
-    return 0;
-  } else {
-    const first = array[0];
-    const rest = array.slice(1);
-    return first + sumToArray(rest);
-  }
+    let sum = 0;
+    const length = array.length;
+    if (length == 0) {
+        return 0;
+    }
+    sum = +array.splice(0, 1) + sumToArray(array);
+    return sum;
 }
 
+const duperArray = [65, 82, 82, 69, 27, 28, 34, 18, 34, 35841, 3413];
+
+console.log(sumToArray(duperArray));
 console.log(sumToArray([1, 2]));
 console.log(sumToArray([1, 2, 3]));
 console.log(sumToArray([1, 2, -244, 4, 5, 6, 0, 8, 9, 1521]));
