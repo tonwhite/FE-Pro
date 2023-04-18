@@ -57,17 +57,20 @@ let users = [
   },
 ];
 
+const dollarsToCents = 100;
+
 const parseBalance = (balance) => {
-  return parseFloat(balance.replace(/[$,]/g, ''));
+  return parseFloat(balance.replace(/[$,]/g, '')) * dollarsToCents;
 }
 
 console.log(parseBalance(users[0].balance),'balance');
 
 function getHighBalanceUsers(users) {
-  const  highBalance = [];
-  
+  const highBalance = [];
+  const highBalanceFloor = 2000;
+
   for (let key in users) {
-    if (+parseBalance(users[key].balance) > 2000) {
+    if (+parseBalance(users[key].balance) > highBalanceFloor * dollarsToCents) {
       highBalance.push(users[key].phone);
       console.log(users[key].phone);
     }
@@ -77,10 +80,12 @@ function getHighBalanceUsers(users) {
 
 const highBalance = getHighBalanceUsers(users);
 
-console.log(highBalance, 'balance > 2000');
+console.log(highBalance, 'balance > 2000$');
 
-const getSumBalance = users.reduce((total, current) => {
-  return total + parseBalance(current.balance);
-}, 0);
+const getSumBalance = (users) => {
+  return users.reduce((total, current) => {
+    return total + parseBalance(current.balance);
+  }, 0);
+}
 
-console.log(getSumBalance);
+console.log(`$ ${ getSumBalance(users) / dollarsToCents}`);
