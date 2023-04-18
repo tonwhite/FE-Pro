@@ -56,3 +56,31 @@ let users = [
     address: '314 Dunne Place, Bawcomville, Guam, 9053',
   },
 ];
+
+const parseBalance = (balance) => {
+  return parseFloat(balance.replace(/[$,]/g, ''));
+}
+
+console.log(parseBalance(users[0].balance),'balance');
+
+function getHighBalanceUsers(users) {
+  const  highBalance = [];
+  
+  for (let key in users) {
+    if (+parseBalance(users[key].balance) > 2000) {
+      highBalance.push(users[key].phone);
+      console.log(users[key].phone);
+    }
+  }
+  return highBalance;
+}
+
+const highBalance = getHighBalanceUsers(users);
+
+console.log(highBalance, 'balance > 2000');
+
+const getSumBalance = users.reduce((total, current) => {
+  return total + parseBalance(current.balance);
+}, 0);
+
+console.log(getSumBalance);
