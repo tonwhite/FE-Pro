@@ -57,23 +57,26 @@ let users = [
   },
 ];
 
-// Принципів не порушено
 const removeSymbols = (balance) => {
   return balance.replace(/[$,]/g, '');
 }
 
 const parseBalance = (balance) => {
-  return parseInt(removeSymbols(balance));
+  return parseFloat(removeSymbols(balance));
 }
 
 const dollarsToCents = (dollars) => {
-  return dollars * 100;
+  return Math.round(dollars) * 100;
 }
 
-console.log(parseBalance(users[0].balance),'parsed balance');
+const centsToDollars = (cents) => {
+  return Math.round(cents) / 100;
+}
+
+console.log(parseBalance(users[0].balance),'parsed balance 1');
 
 function getHighBalanceUsers(users, floor) {
-  return users.filter(user => parseBalance(user.balance) > dollarsToCents(floor)).map(user => user.phone);
+  return users.filter(user => dollarsToCents(parseBalance(user.balance)) > dollarsToCents(floor)).map(user => user.phone);
 }
 
 const highBalance2000 = getHighBalanceUsers(users, 2000);
@@ -87,5 +90,4 @@ const getSumBalance = (users) => {
     return total + dollarsToCents(parseBalance(current.balance));
   }, 0);
 }
-
-console.log(getSumBalance(users));
+console.log(centsToDollars(getSumBalance(users)), 'sum balance');
