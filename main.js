@@ -1,5 +1,10 @@
 /* Зробити декомпозиція темплейту(розбити на шматки) темплейт. Прибрати меджик намбери і код який порушує основні принципи */
 
+// fetch data from server
+const fetchAllProducts = async () => {
+  return (await fetch("https://dummyjson.com/products")).json();
+};
+
 // Отримання данних про продукти
 async function getAllProducts() {
   const response = await fetchAllProducts();
