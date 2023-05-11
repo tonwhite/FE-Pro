@@ -16,27 +16,22 @@
 
 function getCriteria() {
     const name = prompt('Enter name');
-    const price = prompt('Enter price');
-    const rating = prompt('Enter rating');
+    const price = parseFloat(prompt('Enter price'));
+    const rating = parseFloat(prompt('Enter rating'));
     return {name, price, rating};
 }
 
-function getAllProducts(criteria = {}) {
+function isMatched(product, criteria) {
     const { name, price, rating } = criteria;
+    return (!name || product.name === name) &&
+        (!price || product.price === price) &&
+        (!rating || product.rating === rating);
+}
 
-    let filteredProducts = [...products];
-
-    if (name) {
-        filteredProducts = filteredProducts.filter(product => product.name === name);
-    }
-    if (price) {
-        filteredProducts = filteredProducts.filter(product => product.price === price);
-    }
-    if (rating) {
-        filteredProducts = filteredProducts.filter(product => product.rating === rating);
-    }
+function getAllProducts(criteria = {}) {
+    let filteredProducts = products.filter(product => isMatched(product, criteria));
     filteredProducts.sort((a, b) => b.rating - a.rating);
-    
+
     return filteredProducts;
 }
 
