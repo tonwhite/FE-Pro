@@ -15,24 +15,33 @@
 1) Використовуючи параметр rating - конкретного продукту потрібно відсортувати фільтровані або не фільтровані дані так щоб товари з найвищим рейтингом були зверху, меншим знизу. */
 
 function getCriteria() {
-    const name = prompt('Enter name');
-    const price = parseFloat(prompt('Enter price'));
-    const rating = parseFloat(prompt('Enter rating'));
+    const name = prompt('Введіть назву');
+    const price = parseFloat(prompt('Введіть ціну'));
+    const rating = parseFloat(prompt('Введіть оцінку'));
     return {name, price, rating};
 }
 
 function isMatched(product, criteria) {
-    const { name, price, rating } = criteria;
-    return (!name || product.name === name) &&
-        (!price || product.price === price) &&
-        (!rating || product.rating === rating);
+    for (key in criteria) {
+        if (criteria[key] && product[key] !== criteria[key]) {
+            return false;
+        }
+    }
+    return true;
 }
 
-function getAllProducts(criteria = {}) {
-    let filteredProducts = products.filter(product => isMatched(product, criteria));
-    filteredProducts.sort((a, b) => b.rating - a.rating);
+function filterProducts(products, criteria) {
+    return products.filter(product => isMatched(product, criteria));
+}
 
-    return filteredProducts;
+function sortProductsByRating(products) {
+    return products.sort((a, b) => b.rating - a.rating);
+}
+
+function getAndSortProducts(criteria = {}, products) {
+    let filteredProducts = filterProducts(products, criteria);
+
+    return sortProductsByRating(filterProducts);
 }
 
 const criteria = getCriteria();
