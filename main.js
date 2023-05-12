@@ -18,12 +18,12 @@ function getCriteria() {
     const name = prompt('Введіть назву');
     const price = parseFloat(prompt('Введіть ціну'));
     const rating = parseFloat(prompt('Введіть оцінку'));
-    return {name, price, rating};
+    return { name, price, rating };
 }
 
 function isMatched(product, criteria) {
-    for (const key in criteria) {
-        if (criteria[key] && product[key] !== criteria[key]) {
+    for (let key in criteria) {
+        if (criteria[key] != null && product[key] !== criteria[key]) {
             return false;
         }
     }
@@ -40,14 +40,16 @@ function sortProductsByRating(products) {
 
 function getAndSortProducts(criteria = {}, products) {
     let filteredProducts = filterProducts(products, criteria);
-
+    
     return sortProductsByRating(filteredProducts);
 }
 
 const criteria = getCriteria();
-const sortedAndFilteredProducts = getAllProducts(criteria);
+const products = [];
+const sortedAndFilteredProducts = getAndSortProducts(criteria, products);
 
 console.log(sortedAndFilteredProducts);
+
 
 
 
