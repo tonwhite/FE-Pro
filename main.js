@@ -41,7 +41,7 @@ function sortProductsByRating(products) {
 function getAndSortProducts(criteria = {}, products) {
     let filteredProducts = filterProducts(products, criteria);
 
-    return sortProductsByRating(filterProducts);
+    return sortProductsByRating(filteredProducts);
 }
 
 const criteria = getCriteria();
