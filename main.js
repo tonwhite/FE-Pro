@@ -22,7 +22,7 @@ function getCriteria() {
 }
 
 function isMatched(product, criteria) {
-    for (key in criteria) {
+    for (const key in criteria) {
         if (criteria[key] && product[key] !== criteria[key]) {
             return false;
         }
