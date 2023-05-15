@@ -110,11 +110,25 @@ console.log(shape.perimeter, "shape.perimeter");
 console.log(shape.perimeter, "shape.perimeter");
 console.log(shape.perimeter, "shape.perimeter");
 
+// перевірка правильності початкового периметра
+console.assert(shape.perimeter === 400, 'Initial perimeter should be 400');
 
+// виклик гетера периметра кілька разів без зміни залежностей і перевірка, що периметр залишається таким самим, а в історії лише один запис
+console.log(shape.perimeter, "shape.perimeter");
+console.log(shape.perimeter, "shape.perimeter");
+console.log(shape.perimeter, "shape.perimeter");
+console.assert(history.records.length === 1, 'В історії має бути лише один запис');
 
+// зміна залежності, встановлення нового периметра, і перевірка, що новий периметр вірний, а в історії з'явився новий запис.
+shape.perimeter = 800;
+console.assert(shape.perimeter === 800, 'Новий периметр має бути 800');
+console.assert(history.records.length === 2, 'В історії має бути два записи');
 
-
-
+// знову виклик гетера периметра кілька разів без зміни залежностей і перевірка, що периметр залишається таким самим, і до історії не додаються нові записи.
+console.log(shape.perimeter, "shape.perimeter");
+console.log(shape.perimeter, "shape.perimeter");
+console.log(shape.perimeter, "shape.perimeter");
+console.assert(history.records.length === 2, 'В історії все ще має бути два записи');
 
 
 
