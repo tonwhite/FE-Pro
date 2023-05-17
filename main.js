@@ -26,6 +26,9 @@ console.log(shape.perimeter, "shape.perimeter");
 */
 const history = {
     records: [],
+    get lastRecord() {
+        return this.records[this.records.length - 1];
+    },
     get templateRecords() {
         const template = this.records.map(
             (record) =>
@@ -49,16 +52,13 @@ const shape = {
         bottom: 100,
     }),
     
-    // створюю ключ, який зберігатиме останній зліпок залежностей і використовуватиметься для порівняння
-    lastSnapshot: null,
-    
     get perimeter() {
         //------ Bug ---
 
         //  ------ Your resolve problem there -----
-        // Додаб перевірку останнього зліпка з поточний станом залежностей і якщо нічого не змінилося тоді повертаю останнє значення з історії
-        if (this.lastSnapshot && JSON.stringify(this.lastSnapshot) === JSON.stringify(this.dependencies)) {
-            return history.records[history.records.length - 1].perimeter;
+        // Додаб перевірку останнього зліпка з поточним станом залежностей і якщо нічого не змінилося тоді повертаю останнє значення з історії
+        if (history.lastRecord && JSON.stringify(history.lastRecord.dependencies) === JSON.stringify(this.dependencies)) {
+            return history.lastRecord.perimeter;
         }
         //  ------ Your resolve problem there -----
 
@@ -94,13 +94,10 @@ const shape = {
             bottom: size,
         });
 
-        // і тут фіксуємо прібиль
-        this.lastSnapshot = { ...this.dependencies };
-
         // side effect
 
         history.records.push({
-            dependencies: this.dependencies,
+            dependencies: { ...this.dependencies },
             perimeter: perimeter,
         });
     },
@@ -111,7 +108,7 @@ console.log(shape.perimeter, "shape.perimeter");
 console.log(shape.perimeter, "shape.perimeter");
 
 // перевірка правильності початкового периметра
-console.assert(shape.perimeter === 400, 'Initial perimeter should be 400');
+console.assert(shape.perimeter === 400, 'Початковий параметр має бути 400');
 
 // виклик гетера периметра кілька разів без зміни залежностей і перевірка, що периметр залишається таким самим, а в історії лише один запис
 console.log(shape.perimeter, "shape.perimeter");
