@@ -70,12 +70,9 @@ const shape = {
 
         // side effect
         history.records.push({
-            dependencies: this.dependencies,
+            dependencies: { ...this.dependencies },
             perimeter: total,
         });
-
-        // якщо змінюється то клепаємо зліпок
-        this.lastSnapshot = { ...this.dependencies };
 
         return total;
     },
