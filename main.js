@@ -26,7 +26,6 @@ class HTMLElementInput extends HTMLElement {
     placeholder = "";
     name = "";
 
-    // Конструктор є основним місцем, де встановлюються властивості екземпляра класу
     constructor(type, value, placeholder, name, ...args) {
         super(...args); // Викликаємо конструктор батьківського класу з усіма аргументами
         this.type = type;
