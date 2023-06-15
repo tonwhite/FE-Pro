@@ -102,9 +102,3 @@ console.log("Price with sauce: " + hamburger.calculatePrice());
 
 
 
-
-
-
-
-
-
