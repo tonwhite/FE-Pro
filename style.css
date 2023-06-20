@@ -3,3 +3,22 @@
     font-size: 24px;
     font-weight: 500;
 }
+
+#diagram {
+  height: 108px;
+  width: 30px;
+  position: relative;
+  border: 1px solid black;
+}
+#valueBlock {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: green;
+}
+#commissionBlock {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: red;
+}
