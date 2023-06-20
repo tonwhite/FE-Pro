@@ -27,13 +27,13 @@ function calculateCommission(value) {
 }
 
 function updateDiagram(value, commission) {
-  valueBlock.style.height = `${value}px`;
-  commissionBlock.style.height = `${commission}px`;
-  commissionBlock.style.bottom = `${value}px`; // Position the red bar above the green one
+    valueBlock.style.height = `${value}px`;
+    commissionBlock.style.height = `${commission.toFixed(2)}px`;
+    commissionBlock.style.bottom = `${value}px`; // Position the red bar above the green one
 }
 
 function handleInputChange(event) {
-    const value = event.target.value;
+    const value = +event.target.value;
     numberInput.value = value;
     rangeInput.value = value;
     const commission = calculateCommission(value);
