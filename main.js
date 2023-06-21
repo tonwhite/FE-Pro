@@ -29,19 +29,18 @@ function calculateCommission(value) {
 function updateDiagram(value, commission) {
     valueBlock.style.height = `${value}px`;
     commissionBlock.style.height = `${commission.toFixed(2)}px`;
-    commissionBlock.style.bottom = `${value}px`; // Position the red bar above the green one
+    commissionBlock.style.bottom = `${value}px`;
 }
 
-function handleInputChange(event) {
+function handleInputChange(input, event) {
     const value = +event.target.value;
-    numberInput.value = value;
-    rangeInput.value = value;
+    input.value = value;
     const commission = calculateCommission(value);
     updateDiagram(value, commission);
 }
 
-rangeInput.addEventListener('input', handleInputChange);
-numberInput.addEventListener('input', handleInputChange);
+rangeInput.addEventListener('input', (...arg) => handleInputChange(numberInput, ...arg));
+numberInput.addEventListener('input', (...arg) => handleInputChange(rangeInput, ...arg));
 
 
 
