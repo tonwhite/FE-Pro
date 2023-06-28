@@ -1,22 +1,39 @@
 // Вивести таблицю 10 × 10, заповнену числами від 1 до 100(таблиця створюється динамічно)
 
-const table = document.createElement('table');
-table.className = 'table';
-
-for (let i = 0; i < 10; i++) {
-    const tr = document.createElement('tr');
-
-    for (let j = 0; j < 10; j++) {
-        const td = document.createElement('td');
-
-        td.textContent = i * 10 + j + 1;
-
-        tr.appendChild(td);
-    }
-
-    table.appendChild(tr);
+function createCell(textContent) {
+    const td = document.createElement('td');
+    
+    td.textContent = textContent;
+    
+    return td;
 }
 
-document.body.appendChild(table);
+function createRow(cells) {
+    const tr = document.createElement('tr');
+    
+    cells.forEach(cell => tr.appendChild(cell));
+    
+    return tr;
+}
+
+function createTable(rows) {
+    const table = document.createElement('table');
+    
+    table.className = 'table';
+    rows.forEach(row => table.appendChild(row));
+
+    return table;
+}
+
+function customTable() {
+    const rows = Array.from({ length: 10 }, (_, i) =>
+        createRow(Array.from({ length: 10 }, (_, j) =>
+            createCell(i * 10 + j + 1))
+        )
+    );
+    return createTable(rows);
+}
+
+document.body.appendChild(customTable());
 
 
