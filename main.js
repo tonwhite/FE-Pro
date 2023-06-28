@@ -25,15 +25,16 @@ function createTable(rows) {
     return table;
 }
 
-function customTable() {
-    const rows = Array.from({ length: 10 }, (_, i) =>
-        createRow(Array.from({ length: 10 }, (_, j) =>
-            createCell(i * 10 + j + 1))
+function customTable(x, y) {
+    let counter = 0;
+    const rows = Array.from({ length: x }, () =>
+        createRow(Array.from({ length: y }, () =>
+            createCell(++counter))
         )
     );
     return createTable(rows);
 }
 
-document.body.appendChild(customTable());
+document.body.appendChild(customTable(10,10));
 
 
