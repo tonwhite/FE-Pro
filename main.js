@@ -24,6 +24,25 @@ function SuperMath() {
             return this.input(1);
         }
     };
+
+    this.input = function (retries) {
+        if (retries >= 3) {
+            console.error('Too many invalid inputs');
+            return;
+        }
+
+        const X = parseFloat(prompt('Enter the value for X:'));
+        const Y = parseFloat(prompt('Enter the value for Y:'));
+        const znak = prompt('Enter the operation (+, -, *, /, %):');
+
+        const obj = { X, Y, znak };
+
+        if (!this.validateInput(obj)) {
+            alert('Invalid input. Please try again.');
+            return this.input(retries + 1);
+        }
+        return this.check(obj);
+    };
 }
 
 SuperMath.prototype.calculate = function (X, Y, znak) {
@@ -46,25 +65,6 @@ SuperMath.prototype.calculate = function (X, Y, znak) {
             console.error(`Invalid operation: ${znak}`);
             return this.input(1);
     }
-};
-
-SuperMath.prototype.input = function (retries) {
-    if (retries >= 3) {
-        console.error('Too many invalid inputs');
-        return;
-    }
-
-    const X = parseFloat(prompt('Enter the value for X:'));
-    const Y = parseFloat(prompt('Enter the value for Y:'));
-    const znak = prompt('Enter the operation (+, -, *, /, %):');
-
-    const obj = { X, Y, znak };
-
-    if (!this.validateInput(obj)) {
-        alert('Invalid input. Please try again.');
-        return this.input(retries + 1);
-    }
-    return this.check(obj);
 };
 
 SuperMath.prototype.validateInput = function (obj) {
