@@ -5,82 +5,67 @@
 
 function createCell(textContent) {
     const td = document.createElement('td');
-    td.setAttribute('role', 'cell');
     td.textContent = textContent;
     return td;
 }
 
 function createRow(cells) {
     const tr = document.createElement('tr');
-    tr.setAttribute('role', 'row');
     cells.forEach(cell => tr.appendChild(cell));
     return tr;
 }
 
 function createTable(rows) {
     const table = document.createElement('table');
-    table.setAttribute('role', 'table');
     table.className = 'table';
     rows.forEach(row => table.appendChild(row));
     return table;
 }
 
 function clearCell(cell) {
-    while (cell.firstChild) {
-        cell.firstChild.remove();
-    }
-    cell.textContent = cell.dataset.oldValue;
+    cell.innerHTML = cell.dataset.oldValue;
 }
 
-function generateTable() {
-    const rows = Array.from({ length: 5 }, (_, i) =>
-        createRow(Array.from({ length: 5 }, (_, j) =>
-            createCell(`Cell ${i * 5 + j + 1}`))
+function createEditor(cell) {
+    cell.dataset.oldValue = cell.textContent;
+
+    const textarea = document.createElement('textarea');
+    textarea.value = cell.textContent;
+
+    const saveBtn = document.createElement('button');
+    saveBtn.textContent = 'Save';
+    saveBtn.className = 'save-btn';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.className = 'cancel-btn';
+
+    cell.innerHTML = '';
+    cell.append(textarea, saveBtn, cancelBtn);
+}
+
+const table = createTable(
+    Array(5).fill(0).map((_, i) =>
+        createRow(
+            Array(5).fill(0).map((_, j) => createCell(`Cell ${i * 5 + j + 1}`))
         )
-    );
-    return createTable(rows);
-}
-
-const table = generateTable();
+    )
+);
 document.body.appendChild(table);
 
 table.addEventListener('click', function (event) {
     const target = event.target;
     const isCell = target.tagName === 'TD';
-    const isButton = ['save-btn', 'cancel-btn'].includes(target.className);
-    const existingTextarea = document.querySelector('textarea');
-
-    if (existingTextarea && !isButton) {
-        if (isCell && existingTextarea.parentElement) {
-            clearCell(existingTextarea.parentElement);
-        }
-        return;
-    }
+    const isSaveBtn = target.classList.contains('save-btn');
+    const isCancelBtn = target.classList.contains('cancel-btn');
 
     if (isCell) {
-        const textarea = document.createElement('textarea');
-        textarea.setAttribute('aria-label', 'Edit cell content');
-        textarea.value = target.textContent;
-        target.dataset.oldValue = target.textContent;
-
-        const buttons = ['Save', 'Cancel'].map(text => {
-            const button = document.createElement('button');
-            button.setAttribute('aria-label', `${text} edit`);
-            button.textContent = text;
-            button.className = `${text.toLowerCase()}-btn`;
-            return button;
-        });
-
-        target.textContent = '';
-        target.append(textarea, ...buttons);
-    }
-
-    if (isButton && target.parentElement) {
-        const cell = target.parentElement;
-        const textarea = cell.querySelector('textarea');
-        const newValue = target.className === 'save-btn' ? textarea?.value : cell?.dataset.oldValue;
-
-        clearCell(cell);
-        if (newValue) cell.textContent = newValue;
+        createEditor(target);
+    } else if (isSaveBtn) {
+        const textarea = target.parentElement.querySelector('textarea');
+        target.parentElement.dataset.oldValue = textarea.value;
+        clearCell(target.parentElement);
+    } else if (isCancelBtn) {
+        clearCell(target.parentElement);
     }
 });
