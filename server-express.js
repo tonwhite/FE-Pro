@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
 
 app.get('/products', (req, res) => {
     console.log("GET request received for '/products' ")
-    res.json([{ a: 1 }, { a: 2 }, { a: 3 }]);
+    res.json({ name: "Bobik", age: 10, city: "Bambas" });
 });
 
 app.listen(PORT, () => {
