@@ -6,7 +6,7 @@
 
 .table {
     border-collapse: collapse;
-    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
 }
 
@@ -19,6 +19,8 @@
 
 textarea {
     width: 100%;
+    box-sizing: border-box;
+    max-width: 100%;
 }
 
 button {

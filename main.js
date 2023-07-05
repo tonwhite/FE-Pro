@@ -3,6 +3,16 @@
 // save - зберегти в поточну клікнуту ячйку введені "змінені данні", cancel - залишить все без змін як було раніше.
 //     P.S.обов'язково використати делегування події.
 
+// Глобальна змінна для відстеження поточної комірки редагування
+let currentEditor = null;
+
+//Функція для очищення клітинок
+function clearCell(cell) {
+    while (cell.firstChild) {
+        cell.firstChild.remove();
+    }
+}
+
 // Функція створення елементу
 function createElement(type, properties = {}) {
     const element = document.createElement(type);
@@ -57,6 +67,8 @@ function handleSave(oldValue, cell, textarea) {
     cell.innerText = textarea.value; // Використання internalText для запобігання потенційним XSS-атакам
     removeEventListeners(saveButton, cancelButton);
     cell.dataset.type = 'cell';
+    // Скидання поточного редактора після завершення редагування
+    currentEditor = null; 
 }
 
 function handleCancel(oldValue, cell) {
@@ -66,6 +78,8 @@ function handleCancel(oldValue, cell) {
     cell.innerText = oldValue; // Використання internalText для запобігання потенційним XSS-атакам
     removeEventListeners(saveButton, cancelButton);
     cell.dataset.type = 'cell';
+    // Скидання поточного редактора після завершення редагування
+    currentEditor = null;
 }
 
 function removeEventListeners(saveButton, cancelButton) {
@@ -75,6 +89,11 @@ function removeEventListeners(saveButton, cancelButton) {
 }
 
 function createEditor(cell) {
+    if (currentEditor) {
+        // Якщо редагується інша комірка, перед початком нового редагування виконати збереження
+        handleSave(currentEditor.oldValue, currentEditor.cell, currentEditor.textarea);
+    }
+    
     const oldValue = cell.textContent;
     const textarea = createElement('textarea', { value: oldValue, maxLength: 100 });
     const saveButton = createElement('button', { textContent: 'Save', className: 'save-btn' });
@@ -87,13 +106,17 @@ function createEditor(cell) {
     saveButton.addEventListener('click', saveButton.listener);
     cancelButton.addEventListener('click', cancelButton.listener);
 
+    const fragment = document.createDocumentFragment();
+    fragment.append(textarea, saveButton, cancelButton);
+
     // Очишення комірки і додавання нових елементів редактора
-    cell.innerHTML = '';
-    cell.appendChild(textarea);
-    cell.appendChild(saveButton);
-    cell.appendChild(cancelButton);
+    clearCell(cell);
+    cell.append(fragment);
     cell.dataset.type = 'editor';
     textarea.focus();
+
+    // Збереження поточної відредагованої комірки та її текстової області
+    currentEditor = { cell, textarea, oldValue };
 }
 
 // Делегування подій
