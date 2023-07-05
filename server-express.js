@@ -1,11 +1,11 @@
 const express = require('express');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const localhost = "http://localhost:";
 
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('Hello World!');
 });
 
 app.get('/products', (req, res) => {
@@ -15,5 +15,5 @@ app.get('/products', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
-    console.log(`${localhost}${PORT}`);
+    console.log(`Open this link, don't fear ${localhost}${PORT}`);
 });
