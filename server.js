@@ -30,17 +30,24 @@ app.get('/products', (req, res) => {
     const { inStock, minPrice, maxPrice } = req.query;
     let result = products;
 
-    if (inStock !== undefined) {
-        const stockBool = inStock === 'true';
-        result = result.filter(product => product.productStock === stockBool);
-    }
+    if (inStock !== undefined || minPrice !== undefined || maxPrice !== undefined) {
+        result = result.filter(product => {
+            const productPrice = Number(product.productPrice);
 
-    if (minPrice !== undefined) {
-        result = result.filter(product => Number(product.productPrice) >= Number(minPrice));
-    }
+            if (inStock !== undefined && product.productStock.toString() !== inStock) {
+                return false;
+            }
 
-    if (maxPrice !== undefined) {
-        result = result.filter(product => Number(product.productPrice) <= Number(maxPrice));
+            if (minPrice !== undefined && productPrice < Number(minPrice)) {
+                return false;
+            }
+
+            if (maxPrice !== undefined && productPrice > Number(maxPrice)) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     res.json(result);
@@ -48,12 +55,24 @@ app.get('/products', (req, res) => {
 
 app.get('/products/search', (req, res) => {
     const { productName } = req.query;
-    const result = products.filter(product => product.productName.includes(productName));
+    const result = products.filter(product => product.productName.toLowerCase().includes(productName.toLowerCase()));
     res.json(result);
 });
 
 app.get('/products/:id', (req, res) => {
-    const { id } = req.params;
-    const product = products.find(product => product.productId === Number(id));
-    res.json(product || {});
+    const id = Number(req.params.id);
+
+    if (isNaN(id)) {
+        res.status(400).json({ error: 'Product ID must be a number.' });
+        return;
+    }
+
+    const product = products.find(product => product.productId === id);
+
+    if (!product) {
+        res.status(404).json({ error: 'Product not found.' });
+        return;
+    }
+
+    res.json(product);
 });
