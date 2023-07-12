@@ -106,12 +106,12 @@ function createEditor(cell) {
     saveButton.addEventListener('click', saveButton.listener);
     cancelButton.addEventListener('click', cancelButton.listener);
 
-    const fragment = document.createDocumentFragment();
-    fragment.append(textarea, saveButton, cancelButton);
+    const elements = [textarea, saveButton, cancelButton];
 
     // Очишення комірки і додавання нових елементів редактора
     clearCell(cell);
-    cell.append(fragment);
+    cell.append(...elements)
+    
     cell.dataset.type = 'editor';
     textarea.focus();
 
