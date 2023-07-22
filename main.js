@@ -1,7 +1,5 @@
 // За допомогою ajax - запиту вивести погоду
 
-
-
 // http://api.openweathermap.org/data/2.5/weather?q=LVIV&units=metric&APPID=5d066958a60d315387d9492393935c19
 
 // q = XXX - місто, для якого показати погоду
@@ -16,43 +14,77 @@
 
 // Документація: https://openweathermap.org/current
 
-const baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
+// https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
 
-const lat = '49.839700201373404';
-const lon = '24.028291266206672';
+window.onload = function () {
+    const API_KEY = '5d066958a60d315387d9492393935c19';
+    const API_URL = 'https://api.openweathermap.org/data/2.5/weather?units=metric&q=';
 
-const apiKey = 'e723c2b497ef1fcc2c4e81b1a4c26a60';
+    const selectors = {
+        error: document.querySelector('.error'),
+        weather: document.querySelector('.weather'),
+        city: document.querySelector('.city'),
+        description: document.querySelector('.description'),
+        temp: document.querySelector('.temp'),
+        humidity: document.querySelector('.humidity'),
+        wind: document.querySelector('.wind'),
+        weatherIcon: document.querySelector('.weather-icon'),
+        visibility: document.querySelector('.visibility'),
+        pressure: document.querySelector('.pressure'),
+    };
 
-const url = `${baseUrl}?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+    const weatherIconMapping = {
+        'Clouds': './images/clouds.png',
+        'Clear': './images/clear.png',
+        'Drizzle': './images/drizzle.png',
+        'Mist': './images/mist.png',
+        'Rain': './images/rain.png',
+        'Snow': './images/snow.png',
+        'Default': './images/404.png',
+    };
 
-fetch(url)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    const updateUI = (showError = false, data = {}) => {
+        selectors.error.style.display = showError ? 'block' : 'none';
+        selectors.weather.style.display = showError ? 'none' : 'block';
+
+        if (!showError) {
+            selectors.city.textContent = data.name;
+            selectors.temp.textContent = `${Math.round(data.main.temp)}°C`;
+            selectors.description.textContent = data.weather[0].description;
+            selectors.humidity.textContent = `${data.main.humidity}%`;
+            selectors.wind.textContent = `${data.wind.speed}km/h`;
+            selectors.visibility.textContent = `${data.visibility / 1000} km`;
+            selectors.pressure.textContent = `${data.main.pressure} hPa`;
+            selectors.weatherIcon.src = weatherIconMapping[data.weather[0].main] || weatherIconMapping.Default;
         }
-        return response.json();
-    })
-    .then(data => {
-        
-        const weatherInfo = {
-            temperature: data.main.temp,
-            pressure: data.main.pressure,
-            description: data.weather[0].description,
-            humidity: data.main.humidity,
-            windSpeed: data.wind.speed,
-            windDirection: data.wind.deg,
-            iconUrl: `http://openweathermap.org/img/w/${data.weather[0].icon}.png`
-        };
+    };
 
-        console.log(weatherInfo);
-    })
-    .catch(error => {
-        console.log('An error occurred while fetching the weather data: ', error);
+    const fetchWeather = async (city) => {
+        try {
+            const response = await fetch(`${API_URL}${city}&appid=${API_KEY}`);
+            if (response.status !== 200) throw new Error("Invalid city name");
+
+            const data = await response.json();
+            console.log(data);
+            updateUI(false, data);
+        } catch (error) {
+            updateUI(true);
+        }
+    };
+
+    document.querySelector('.search button').addEventListener('click', () => {
+        const city = document.querySelector('.search input').value;
+        fetchWeather(city);
     });
 
+    document.querySelector('.search input').addEventListener('keyup', event => {
+        if (event.key === 'Enter') {
+            const city = event.target.value;
+            fetchWeather(city);
+        }
+    });
 
-
-
+}
 
 
 
